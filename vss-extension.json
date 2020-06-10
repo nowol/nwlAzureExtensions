@@ -1,0 +1,59 @@
+{
+  "manifestVersion": 1,
+  "id": "nwl-pull-requests-hub",
+  "publisher": "ADrouinPerso",
+  "version": "0.0.58",
+  "name": "Pull Requests Hub",
+  "description": "An Azure Devops extension to display every active pull requests of a project.",
+  "public": false,
+  "categories": ["Azure Repos"],
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+
+  "tags": [
+    "pull request",
+    "git"
+  ],
+
+
+  "links": {
+    "home": {
+      "uri": "https://github.com/nowol/nwlAzureExtensions"
+    },
+    "support": {
+      "url": "https://github.com/nowol/nwlAzureExtensions"
+    }
+  },
+
+  "contributions": [
+    {
+      "id": "pull-requests-hub",
+      "type": "ms.vss-web.hub",
+      "description": "blabla.",
+      "targets": [
+        "ms.vss-code-web.code-hub-group"
+      ],
+      "properties": {
+        "name": "Pull Requests Hub",
+        "order": 100,
+        "uri": "dist/PullRequests/index.html"
+      }
+    }
+  ],
+  "scopes": [
+    "vso.code"
+  ],
+  "files": [
+    {
+      "path": "static",
+      "addressable": true
+    },
+    {
+      "path": "dist",
+      "addressable": true
+    }
+  ]
+}
