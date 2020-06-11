@@ -9,4 +9,4 @@ Random references used when developing this extension
 * https://github.com/microsoft/vsts-team-calendar
 * https://github.com/cschleiden/azure-boards-estimate
   * Good example that saves data
- 
+* https://github.com/sierpinski/Blitz

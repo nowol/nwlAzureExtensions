@@ -44,7 +44,7 @@ export class PullRequestStatus extends React.Component<IPullRequestStatusProps, 
         const gitClient = getClient(GitRestClient);
 
         const threads = await gitClient.getThreads(pullRequest.repository.id, pullRequest.pullRequestId);
-        console.log("threads", threads);
+        //console.log("threads", threads);
 
         let totalComments = 0;
         let resolvedComments = 0;
@@ -55,7 +55,7 @@ export class PullRequestStatus extends React.Component<IPullRequestStatusProps, 
                 if (containsNormalComments) {
                     totalComments++;
 
-                    if (thread.status == CommentThreadStatus.Closed) {
+                    if (thread.status != CommentThreadStatus.Active) {
                         resolvedComments++;
                     }
                 }
