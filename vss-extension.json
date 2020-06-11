@@ -2,23 +2,39 @@
   "manifestVersion": 1,
   "id": "nwl-pull-requests-hub",
   "publisher": "ADrouinPerso",
-  "version": "0.0.58",
+  "version": "1.0.5",
   "name": "Pull Requests Hub",
   "description": "An Azure Devops extension to display every active pull requests of a project.",
-  "public": false,
-  "categories": ["Azure Repos"],
+  "public": true,
+  "categories": [
+    "Azure Repos"
+  ],
   "targets": [
     {
       "id": "Microsoft.VisualStudio.Services"
     }
   ],
-
+  "icons": {
+    "default": "src/PullRequests/images/logo.png"
+  },
   "tags": [
     "pull request",
-    "git"
+    "git",
+    "darkmode"
   ],
-
-
+  "content": {
+    "details": {
+      "path": "src/PullRequests/overview.md"
+    },
+    "license": {
+      "path": "LICENSE.md"
+    }
+  },
+  "screenshots": [
+    {
+      "path": "src/PullRequests/images/PRHUI.png"
+    }
+  ],
   "links": {
     "home": {
       "uri": "https://github.com/nowol/nwlAzureExtensions"
@@ -27,7 +43,6 @@
       "url": "https://github.com/nowol/nwlAzureExtensions"
     }
   },
-
   "contributions": [
     {
       "id": "pull-requests-hub",
@@ -39,7 +54,8 @@
       "properties": {
         "name": "Pull Requests Hub",
         "order": 100,
-        "uri": "dist/PullRequests/index.html"
+        "uri": "dist/PullRequests/index.html",
+        "icon": "src/PullRequests/images/menuicon.png"
       }
     }
   ],
@@ -54,6 +70,15 @@
     {
       "path": "dist",
       "addressable": true
+    },
+    {
+      "path": "src/PullRequests/images/menuicon.png",
+      "addressable": true
+    },
+    {
+      "path": "src/PullRequests/images/PRHUI.png",
+      "addressable": true,
+      "packagePath": "images/PRHUI.png"
     }
   ]
 }
