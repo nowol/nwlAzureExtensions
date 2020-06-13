@@ -23,6 +23,7 @@ import {IPullRequestDetail} from "./IPullRequestDetail";
 import {PullRequestTableRendering} from "./PullRequestTableRendering";
 import {IRepositoryServiceHubContentState} from "./IRepositoryServiceHubContentState";
 
+const showDebug: boolean = false;
 
 class RepositoryServiceHubContent extends React.Component<{}, IRepositoryServiceHubContentState> {
 
@@ -80,10 +81,6 @@ class RepositoryServiceHubContent extends React.Component<{}, IRepositoryService
         const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
         const project = await projectService.getProject();
         if (project) {
-            const repositories = await this.gitClient.getRepositories(project!.name);
-            //console.log(project);
-            //console.log("repositories", repositories);
-
             const criteria: GitPullRequestSearchCriteria = {
                 creatorId: "",
                 includeLinks: true,
@@ -95,7 +92,10 @@ class RepositoryServiceHubContent extends React.Component<{}, IRepositoryService
                 targetRefName: ""
             };
             const pullRequests = await this.gitClient.getPullRequestsByProject(project!.name, criteria);
-            console.log("pullRequests", pullRequests);
+            if (showDebug) {
+                console.log("project", project);
+                console.log("pullRequests", pullRequests);
+            }
 
             this.setState({
                 pullRequests: pullRequests.map((value, index) => {
@@ -125,6 +125,12 @@ class RepositoryServiceHubContent extends React.Component<{}, IRepositoryService
         const {pullRequests} = this.state;
         const pullRequestProvider = new ArrayItemProvider(pullRequests || []);
 
+        if (!this.columnRendering) {
+            return <div>Initializing table</div>;
+        }
+
+        console.warn(this.columnRendering.breakPoints);
+
         return (
                 <Page className="flex-grow">
                     <Header title="Pull Requests Hub" titleSize={TitleSize.Large}/>
@@ -135,7 +141,17 @@ class RepositoryServiceHubContent extends React.Component<{}, IRepositoryService
                                 &&
                                 <Table<IPullRequestDetail>
                                         behaviors={[this.sortingBehavior]}
-                                        columns={this.columnRendering!.columns!}
+                                        columns={this.columnRendering.columns}
+                                        tableBreakpoints={[{
+                                            breakpoint: 100,
+                                            columnWidths: [0,180,100,0,0,150]
+                                        },
+                                            {
+                                                breakpoint: 950,
+                                                columnWidths: [75,180,0,100,0,150]
+                                            }
+                                        ]}
+                                        //tableBreakpoints={this.columnRendering!.breakPoints}
                                         itemProvider={pullRequestProvider}
                                         role="table"
                                         onSelect={(event, tableRow) => this.navService!.navigate(tableRow.data.pullRequestUrl)}

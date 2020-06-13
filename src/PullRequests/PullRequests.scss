@@ -1,1 +1,30 @@
 @import "node_modules/azure-devops-ui/Core/_platformCommon.scss";
+
+$border-size: 4px;
+
+.pull-request-reviewer {
+    border-top: $border-size solid transparent;
+    border-left: $border-size solid transparent;
+}
+
+.pull-request-reviewer > span {
+    border-bottom: $border-size solid transparent;
+    display: inline-block;
+}
+
+.pull-request-reviewer > .pull-request-approved {
+    border-bottom: $border-size solid #287729;
+}
+
+.pull-request-reviewer > .pull-request-approved-with-suggestions {
+    border-bottom: $border-size dotted #287729;
+}
+
+.pull-request-reviewer > .pull-request-waiting-for-author {
+    border-bottom: $border-size dotted #FF8C0C;
+}
+
+.pull-request-reviewer > .pull-request-rejected {
+    border-bottom: $border-size solid lightcoral;
+}
+
