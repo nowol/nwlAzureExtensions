@@ -1,8 +1,8 @@
 {
   "manifestVersion": 1,
   "id": "nwl-pull-requests-hub-dev",
-  "publisher": "ADrouinPerson",
-  "version": "1.0.41",
+  "publisher": "ADrouinPerso",
+  "version": "1.0.46",
   "name": "Pull Requests Hub",
   "description": "An Azure Devops extension to display every active pull requests of a project.",
   "public": false,
@@ -63,10 +63,6 @@
     "vso.code"
   ],
   "files": [
-    {
-      "path": "static",
-      "addressable": true
-    },
     {
       "path": "dist",
       "addressable": true
