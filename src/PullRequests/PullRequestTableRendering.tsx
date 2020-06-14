@@ -110,7 +110,7 @@ export class PullRequestTableRendering {
                         ariaLabelAscending: "Sorted A to Z",
                         ariaLabelDescending: "Sorted Z to A"
                     },
-                    width: 180
+                    width: 250
                 },
                 sortDefinition: (item1: IPullRequestDetail, item2: IPullRequestDetail): number => {
                     return item1.createdBy.displayName!.localeCompare(item2.createdBy.displayName!);
@@ -196,7 +196,7 @@ export class PullRequestTableRendering {
     private static renderIdentityIcon(identity: WebApi.IdentityRef): JSX.Element {
         return (
             <React.Fragment>
-                <VssPersona key={"icon-" + identity.id} imageUrl={identity.imageUrl} size={"small"}
+                <VssPersona key={"icon-" + identity.id} imageUrl={identity.imageUrl} size={"medium"}
                             imgAltText={identity.displayName}/>
             </React.Fragment>
         );
@@ -205,25 +205,31 @@ export class PullRequestTableRendering {
     private static renderIdentity(identity: WebApi.IdentityRef): JSX.Element {
         return (
             <React.Fragment>
-                {PullRequestTableRendering.renderIdentityIcon(identity)}&nbsp;{identity.displayName}
+                {identity.displayName}
             </React.Fragment>
         );
     }
 
     private static renderCreatedByCell<T extends IPullRequestDetail>(rowIndex: number, columnIndex: number, tableColumn: ITableColumn<T>, tableItem: T, ariaRowIndex?: number): JSX.Element {
         return (
-            <TwoLineTableCell
-                className="bolt-table-cell-content-with-inline-link"
-                key={"col-" + columnIndex}
-                columnIndex={columnIndex}
-                tableColumn={tableColumn}
-                line1={PullRequestTableRendering.renderIdentity(tableItem.createdBy)}
-                line2={
-                    <span className="fontSize font-size secondary-text">
-                        <Ago date={tableItem.creationDate} tooltipProps={{text: tableItem.creationDate.toLocaleString()}} />
-                    </span>
-                }
-            />
+                <SimpleTableCell
+                        columnIndex={columnIndex}
+                        tableColumn={tableColumn}
+                        key={"col-" + columnIndex}>
+                    <div style={{display:"inline-block", paddingRight: "5px"}}>
+                        {PullRequestTableRendering.renderIdentityIcon(tableItem.createdBy)}
+                    </div>
+                    <div style={{display:"inline-block"}}>
+                        <div>
+                            {PullRequestTableRendering.renderIdentity(tableItem.createdBy)}
+                        </div>
+                        <div>
+                            <span className="fontSize font-size secondary-text">
+                                <Ago date={tableItem.creationDate} tooltipProps={{text: tableItem.creationDate.toLocaleString()}} />
+                            </span>
+                        </div>
+                    </div>
+                </SimpleTableCell>
         )
     }
 
