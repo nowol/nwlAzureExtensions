@@ -129,8 +129,6 @@ class RepositoryServiceHubContent extends React.Component<{}, IRepositoryService
             return <div>Initializing table</div>;
         }
 
-        console.warn(this.columnRendering.breakPoints);
-
         return (
                 <Page className="flex-grow">
                     <Header title="Pull Requests Hub" titleSize={TitleSize.Large}/>
@@ -142,16 +140,6 @@ class RepositoryServiceHubContent extends React.Component<{}, IRepositoryService
                                 <Table<IPullRequestDetail>
                                         behaviors={[this.sortingBehavior]}
                                         columns={this.columnRendering.columns}
-                                        tableBreakpoints={[{
-                                            breakpoint: 100,
-                                            columnWidths: [0,180,100,0,0,150]
-                                        },
-                                            {
-                                                breakpoint: 950,
-                                                columnWidths: [75,180,0,100,0,150]
-                                            }
-                                        ]}
-                                        //tableBreakpoints={this.columnRendering!.breakPoints}
                                         itemProvider={pullRequestProvider}
                                         role="table"
                                         onSelect={(event, tableRow) => this.navService!.navigate(tableRow.data.pullRequestUrl)}
