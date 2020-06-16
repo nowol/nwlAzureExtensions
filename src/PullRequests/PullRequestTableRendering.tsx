@@ -73,7 +73,7 @@ export class PullRequestTableRendering {
                 })
             })
         }
-        console.log(breakPoints);
+        //console.log(breakPoints);
         return breakPoints;
     }
 
@@ -87,7 +87,7 @@ export class PullRequestTableRendering {
                     minWidth: 60,
                     name: "ID",
                     readonly: true,
-                    renderCell: this.renderIdCell,
+                    renderCell: (rowIndex, columnIndex, tableColumn, tableItem, ariaRowIndex) => this.renderIdCell(rowIndex, columnIndex, tableColumn, tableItem, ariaRowIndex),
                     sortProps: {
                         ariaLabelAscending: "Sorted low to high",
                         ariaLabelDescending: "Sorted high to low"
@@ -235,7 +235,11 @@ export class PullRequestTableRendering {
 
     private renderIdCell<T extends IPullRequestDetail>(rowIndex: number, columnIndex: number, tableColumn: ITableColumn<T>, tableItem: T, ariaRowIndex?: number): JSX.Element {
         const link = <Link href={tableItem.pullRequestUrl}
-                           onClick={() => this.navService!.navigate(tableItem.pullRequestUrl)}>{tableItem.pullRequestId}</Link>;
+                           onClick={event => {
+                               this.navService!.navigate(tableItem.pullRequestUrl);
+                               event.preventDefault();
+                               return false;
+                           }}>{tableItem.pullRequestId}</Link>;
         return (
             <SimpleTableCell
                 columnIndex={columnIndex}

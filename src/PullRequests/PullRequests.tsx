@@ -72,7 +72,6 @@ class RepositoryServiceHubContent extends React.Component<{}, IRepositoryService
         });
         const locationService = await SDK.getService<ILocationService>(CommonServiceIds.LocationService);
         const hostUrl = await locationService.getServiceLocation();
-        //console.log(hostUrl); // https://dev.azure.com/<orgname>/
 
         this.navService = await SDK.getService<IHostNavigationService>(CommonServiceIds.HostNavigationService);
         this.gitClient = getClient(GitRestClient);
@@ -93,6 +92,7 @@ class RepositoryServiceHubContent extends React.Component<{}, IRepositoryService
             };
             const pullRequests = await this.gitClient.getPullRequestsByProject(project!.name, criteria);
             if (showDebug) {
+                console.log("hostUrl", hostUrl); // https://dev.azure.com/<orgname>/
                 console.log("project", project);
                 console.log("pullRequests", pullRequests);
             }
