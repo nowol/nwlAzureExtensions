@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "nwl-pull-requests-hub-dev",
   "publisher": "ADrouinPerso",
-  "version": "1.0.60",
+  "version": "1.0.82",
   "name": "Pull Requests Hub",
   "description": "An Azure Devops extension to display every active pull requests of a project.",
   "public": false,

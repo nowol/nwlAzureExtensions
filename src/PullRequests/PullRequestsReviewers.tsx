@@ -31,12 +31,13 @@ class PullRequestsReviewer extends React.Component<IPullRequestsReviewerProps, {
         const {reviewer} = this.props;
 
         return (
-                <span className="pull-request-reviewer">
+                <span className="pull-request-reviewer" title={reviewer.displayName}>
                     <span className={PullRequestsReviewer.getClassName(reviewer)}>
                         <VssPersona key={"icon-" + reviewer.id}
                                     imageUrl={reviewer.imageUrl}
                                     size={"small"}
-                                    imgAltText={reviewer.displayName}/>
+                                    imgAltText={reviewer.displayName}
+                                    showInitialsOnImageError={true} />
                     </span>
                 </span>
         );
@@ -45,6 +46,6 @@ class PullRequestsReviewer extends React.Component<IPullRequestsReviewerProps, {
 
 export class PullRequestsReviewers extends React.Component<IPullRequestsReviewersProps, {}> {
     render(): JSX.Element {
-        return (<div className="flex-row flex-wrap" >{this.props.reviewers.map(value => <PullRequestsReviewer reviewer={value}/>)}</div>);
+        return (<div className="flex-row flex-wrap" key="abc" >{this.props.reviewers.map(value => <PullRequestsReviewer key={"icon-" + value.id}  reviewer={value}/>)}</div>);
     }
 }

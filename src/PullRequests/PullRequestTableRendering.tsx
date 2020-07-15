@@ -3,12 +3,10 @@ import {ITableBreakpoint, ITableColumn, SimpleTableCell, TwoLineTableCell} from 
 import * as WebApi from "azure-devops-extension-api/WebApi/WebApi";
 import * as React from "react";
 import {Link} from "azure-devops-ui/Link";
-import {PullRequestAsyncStatus} from "azure-devops-extension-api/Git/Git";
 import {IPullRequestDetail} from "./IPullRequestDetail";
 import {IPullRequestTableColumnDefinition} from "./IPullRequestTableColumnDefinition";
 import {VssPersona} from "azure-devops-ui/VssPersona";
 import {Pill, PillSize, PillVariant} from "azure-devops-ui/Pill";
-import {Status, Statuses, StatusSize} from "azure-devops-ui/Status";
 import {IColor} from "azure-devops-ui/Utilities/Color";
 import {PullRequestStatus} from "./PullRequestStatus";
 import {BreakPointNames} from "./BreakPointNames";
@@ -28,15 +26,18 @@ interface BreakPointDefinition {
 }
 
 export class PullRequestTableRendering {
-    private navService: IHostNavigationService;
+    private navService: IHostNavigationService | undefined;
 
-    constructor(navService: IHostNavigationService) {
-        this.navService = navService;
+    constructor() {
         const columnsDef = this.buildColumns();
 
         this.columns = columnsDef.map(value => value.tableColumnDefinition);
         this.sortDefinitions = columnsDef.map(value => value.sortDefinition);
         this.breakPoints = this.computeBreakPoints(columnsDef);
+    }
+
+    public setNavService(navService: IHostNavigationService) {
+        this.navService = navService;
     }
 
     public breakPoints: ITableBreakpoint[];
@@ -180,24 +181,13 @@ export class PullRequestTableRendering {
         ];
     }
 
-    private static renderSimpleStringCell<T>(value: number | string | JSX.Element | JSX.Element[] | null, rowIndex: number, columnIndex: number, tableColumn: ITableColumn<T>, contentClassName: string = ""): JSX.Element {
-        return (
-            <SimpleTableCell
-                columnIndex={columnIndex}
-                tableColumn={tableColumn}
-                key={"col-" + columnIndex}
-                contentClassName={contentClassName}
-            >
-                {value}
-            </SimpleTableCell>
-        )
-    }
-
     private static renderIdentityIcon(identity: WebApi.IdentityRef): JSX.Element {
         return (
             <React.Fragment>
-                <VssPersona key={"icon-" + identity.id} imageUrl={identity.imageUrl} size={"medium"}
-                            imgAltText={identity.displayName}/>
+                <span title={identity.displayName}>
+                    <VssPersona key={"icon-" + identity.id} imageUrl={identity.imageUrl} size={"medium"} showInitialsOnImageError={true}
+                                imgAltText={identity.displayName}/>
+                </span>
             </React.Fragment>
         );
     }
@@ -236,7 +226,7 @@ export class PullRequestTableRendering {
     private renderIdCell<T extends IPullRequestDetail>(rowIndex: number, columnIndex: number, tableColumn: ITableColumn<T>, tableItem: T, ariaRowIndex?: number): JSX.Element {
         const link = <Link href={tableItem.pullRequestUrl}
                            onClick={event => {
-                               this.navService!.navigate(tableItem.pullRequestUrl);
+                               this.navService?.navigate(tableItem.pullRequestUrl);
                                event.preventDefault();
                                return false;
                            }}>{tableItem.pullRequestId}</Link>;
@@ -248,16 +238,6 @@ export class PullRequestTableRendering {
                 contentClassName="bolt-table-cell-content-with-link"
             >
                 {link}
-                {tableItem.mergeStatus === PullRequestAsyncStatus.Conflicts
-                 && (<React.Fragment>
-                        &nbsp;
-                        <Status
-                            {...Statuses.Failed}
-                            ariaLabel="Conflict"
-                            className="icon-large-margin"
-                            size={StatusSize.m}
-                        />
-                 </React.Fragment>)}
             </SimpleTableCell>
         );
     }
@@ -297,13 +277,14 @@ export class PullRequestTableRendering {
     }
 
     private static renderTitleCell<T extends IPullRequestDetail>(rowIndex: number, columnIndex: number, tableColumn: ITableColumn<T>, tableItem: T, ariaRowIndex?: number): JSX.Element {
-        return (<SimpleTableCell columnIndex={columnIndex}>
+        return (<SimpleTableCell columnIndex={columnIndex}
+                                 key={"col-" + columnIndex}>
                     {PullRequestTableRendering.renderTitleText(tableItem)}
                 </SimpleTableCell>);
     }
 
     private static renderStatusCell(rowIndex: number, columnIndex: number, tableColumn: ITableColumn<IPullRequestDetail>, tableItem: IPullRequestDetail, ariaRowIndex?: number): JSX.Element {
-        return ( <PullRequestStatus columnIndex={columnIndex} tableColumn={tableColumn} pullRequest={tableItem} /> );
+        return ( <PullRequestStatus key={"col-" + columnIndex} columnIndex={columnIndex} tableColumn={tableColumn} pullRequest={tableItem} /> );
     }
 
     private renderReviewersCell<T extends IPullRequestDetail>(rowIndex: number, columnIndex: number, tableColumn: ITableColumn<T>, tableItem: T, ariaRowIndex?: number): JSX.Element {
