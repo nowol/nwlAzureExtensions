@@ -1,6 +1,7 @@
 import React from 'react';
 import {IdentityRefWithVote} from "azure-devops-extension-api/Git/Git";
-import {VssPersona} from "azure-devops-ui/VssPersona";
+import * as WebApi from "azure-devops-extension-api/WebApi/WebApi";
+import {PullRequestPersona} from "./PullRequestPersona";
 
 export interface IPullRequestsReviewersProps {
     reviewers: IdentityRefWithVote[];
@@ -33,11 +34,7 @@ class PullRequestsReviewer extends React.Component<IPullRequestsReviewerProps, {
         return (
                 <span className="pull-request-reviewer" title={reviewer.displayName}>
                     <span className={PullRequestsReviewer.getClassName(reviewer)}>
-                        <VssPersona key={"icon-" + reviewer.id}
-                                    imageUrl={reviewer.imageUrl}
-                                    size={"small"}
-                                    imgAltText={reviewer.displayName}
-                                    showInitialsOnImageError={true} />
+                        <PullRequestPersona identity={reviewer} size={"small"} />
                     </span>
                 </span>
         );

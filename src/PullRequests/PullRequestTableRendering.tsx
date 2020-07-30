@@ -5,7 +5,6 @@ import * as React from "react";
 import {Link} from "azure-devops-ui/Link";
 import {IPullRequestDetail} from "./IPullRequestDetail";
 import {IPullRequestTableColumnDefinition} from "./IPullRequestTableColumnDefinition";
-import {VssPersona} from "azure-devops-ui/VssPersona";
 import {Pill, PillSize, PillVariant} from "azure-devops-ui/Pill";
 import {IColor} from "azure-devops-ui/Utilities/Color";
 import {PullRequestStatus} from "./PullRequestStatus";
@@ -13,6 +12,9 @@ import {BreakPointNames} from "./BreakPointNames";
 import {PullRequestsReviewers} from "./PullRequestsReviewers";
 import {Ago} from "azure-devops-ui/Ago";
 import {Icon, IconSize} from "azure-devops-ui/Icon";
+import {IdentityRefWithVote} from "azure-devops-extension-api/Git/Git";
+import {PullRequestPersona} from "./PullRequestPersona";
+import {VssPersonaSize} from "azure-devops-ui/Components/VssPersona/VssPersona.Props";
 
 const draftColor: IColor = {
     red: 0,
@@ -185,8 +187,7 @@ export class PullRequestTableRendering {
         return (
             <React.Fragment>
                 <span title={identity.displayName}>
-                    <VssPersona key={"icon-" + identity.id} imageUrl={identity.imageUrl} size={"medium"} showInitialsOnImageError={true}
-                                imgAltText={identity.displayName}/>
+                    <PullRequestPersona identity={identity} size={"medium"} />
                 </span>
             </React.Fragment>
         );
